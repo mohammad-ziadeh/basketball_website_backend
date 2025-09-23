@@ -4981,7 +4981,7 @@ textarea.is-invalid.dataTable-input {
   --bs-pagination-disabled-color: #5b6b79;
   --bs-pagination-disabled-bg: #ffffff;
   --bs-pagination-disabled-border-color: #dbe0e5;
-  display: flex;
+  display: none;
   padding-left: 0;
   list-style: none;
 }

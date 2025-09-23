@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
+            $table->dateTime('age')->nullable();
+            $table->softDeletes();
             $table->enum('role', ['admin', 'parent', 'player'])->default('player');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->rememberToken();
@@ -33,7 +35,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-
-
-
-

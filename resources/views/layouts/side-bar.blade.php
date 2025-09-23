@@ -45,11 +45,11 @@
                                 <use xlink:href="#custom-document"></use>
                             </svg>
                         </span>
-                        <span class="pc-mtext">Layouts</span>
+                        <span class="pc-mtext">Tables</span>
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="../demo/layout-vertical.html">Vertical</a> </li>
+                        <li class="pc-item"><a class="pc-link" href="{{route('users.index')}}">Users</a> </li>
                         <li class="pc-item"><a class="pc-link" href="../demo/layout-horizontal.html">Horizontal</a>
                         </li>
                         <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 2</a>
