@@ -1,6 +1,6 @@
 <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg"> 
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" style="background-color: #ffffff; border-radius: 8px;">
             <div class="modal-header border-bottom-0" style="padding: 1.5rem 1.5rem 0;">
                 <h5 class="modal-title" id="createUserModalLabel" style="color: #000000; font-weight: 600;">
@@ -14,9 +14,16 @@
                 <div class="modal-body" style="padding: 0 1.5rem 1rem;">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="name" class="form-label" style="color: #000000;">Name</label>
+                            <label for="name" class="form-label" style="color: #000000;">Full Name</label>
                             <input type="text" class="form-control" name="name" value="{{ old('name') }}"
-                                required style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
+                                required
+                                style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="school" class="form-label" style="color: #000000;">School</label>
+                            <input type="text" class="form-control" name="school" value="{{ old('school') }}"
+                                required
+                                style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
                         </div>
                     </div>
 
@@ -28,33 +35,33 @@
 
                     <div class="form-group mb-3">
                         <label for="password" class="form-label" style="color: #000000;">Password</label>
-                        <input type="password" class="form-control" name="password" required
-                            placeholder="••••••••"
+                        <input type="password" class="form-control" name="password" required placeholder="••••••••"
                             style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="phone" class="form-label" style="color: #000000;">Phone</label>
-                            <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" required
+                            <input type="text" class="form-control" name="phone" value="{{ old('phone') }}"
+                                required
                                 style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
                         </div>
                         <div class="col-md-6">
-                            <label for="age" class="form-label" style="color: #000000;">Age</label>
-                            <input type="date" class="form-control" name="age"
-                                style="border-radius: 5px;">
+                            <label for="age" class="form-label" style="color: #000000;">Birth Date</label>
+                            <input type="date" class="form-control" name="age" style="border-radius: 5px;">
                         </div>
                     </div>
 
+
                     <div class="row mb-3">
-                        {{-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <label for="gender" class="form-label" style="color: #000000;">Gender</label>
                             <select name="gender" class="form-control" required
                                 style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
-                        </div> --}}
+                        </div>
                         <div class="col-md-6">
                             <label for="role" class="form-label" style="color: #000000;">Role</label>
                             <select name="role" class="form-control" required

@@ -24,6 +24,9 @@ class UserController extends Controller
         if ($request->has('role') && $request->role != 'all') {
             $query->where('role', $request->role);
         }
+        if ($request->has('gender') && $request->gender != 'all') {
+            $query->where('gender', $request->gender);
+        }
 
 
 
@@ -65,7 +68,8 @@ class UserController extends Controller
             'role' => $request->role,
             'email' => $request->email,
             'password' => Hash::make('123456789'),
-            // 'gender' => $request->gender,
+            'gender' => $request->gender,
+            'school' => $request->school,
             'phone' => $request->phone,
             'age' => $request->age,
             'name' => $request->name,
@@ -102,7 +106,8 @@ class UserController extends Controller
             'role' => $request->role,
             'email' => $request->email,
             'password' => Hash::make('123456789'),
-            // 'gender' => $request->gender,
+            'gender' => $request->gender,
+            'school' => $request->school,
             'phone' => $request->phone,
             'age' => $request->age,
             'name' => $request->name,

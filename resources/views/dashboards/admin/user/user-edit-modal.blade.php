@@ -16,9 +16,15 @@
                 <div class="modal-body" style="padding: 0 1.5rem 1rem;">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="first_name" class="form-label" style="color: #000000;">First Name</label>
-                            <input type="text" class="form-control" name="first_name"
-                                value="{{ old('first_name', $user->name) }}" required
+                            <label for="name" class="form-label" style="color: #000000;">Full Name</label>
+                            <input type="text" class="form-control" name="name"
+                                value="{{ old('name', $user->name) }}" required
+                                style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="school" class="form-label" style="color: #000000;">School</label>
+                            <input type="text" class="form-control" name="school"
+                                value="{{ old('school', $user->school) }}" required
                                 style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
                         </div>
                     </div>

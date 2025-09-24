@@ -4981,7 +4981,7 @@ textarea.is-invalid.dataTable-input {
   --bs-pagination-disabled-color: #5b6b79;
   --bs-pagination-disabled-bg: #ffffff;
   --bs-pagination-disabled-border-color: #dbe0e5;
-  display: none;
+  display: flex;
   padding-left: 0;
   list-style: none;
 }
@@ -30270,6 +30270,7 @@ div.dt-button-info > div {
 
 .dt-buttons {
   margin-bottom: 5px;
+  
 }
 
 table.dataTable tbody td.focus,
@@ -30403,6 +30404,7 @@ table.dataTable tbody > tr.selected th.select-checkbox:after {
 
 .dt-buttons.btn-group.flex-wrap .btn, .dt-buttons.btn-group.flex-wrap .introjs-tooltip .introjs-button, .introjs-tooltip .dt-buttons.btn-group.flex-wrap .introjs-button {
   margin-bottom: 5px;
+  
 }
 
 .dataTable[aria-describedby=no-style_info] th {

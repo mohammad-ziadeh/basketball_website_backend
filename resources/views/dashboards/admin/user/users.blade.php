@@ -27,9 +27,17 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <select name="role" class="form-control">
+                                <option value="all">All Genders</option>
+                                <option value="male" {{ request('role') == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="female" {{ request('role') == 'female' ? 'selected' : '' }}>Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <select name="gender" class="form-control">
                                 <option value="all">All Genders</option>
-                                <option value="male" {{ request('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="male" {{ request('gender') == 'male' ? 'selected' : '' }}>Male
+                                </option>
                                 <option value="female" {{ request('gender') == 'female' ? 'selected' : '' }}>Female
                                 </option>
                             </select>
@@ -44,7 +52,7 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-primary">Filter</button>
                             <a href="{{ route('users.index') }}" class="btn btn-secondary">Reset</a>
                         </div>
@@ -65,7 +73,9 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Birth Date</th>
+                            <th>Phone</th>
+                            <th>Age</th>
+                            <th>School</th>
                             <th>Joining Date</th>
                             <th>Actions</th>
                         </tr>
@@ -76,10 +86,10 @@
                                 <td>{{ $user->id }}</td>
                                 <td>{!! $user->gender === 'male' ? '<i class="fa-solid fa-mars"></i>' : '<i class="fa-solid fa-venus"></i>' !!} {{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>
-                                    {{ $user->role }}
-                                </td>
-                                <td>{{ $user->birth_date }}</td>
+                                <td>{{ $user->role }}</td>
+                                <td>{{ $user->phone }}</td>
+                                <td>{{ $user->age }}</td>
+                                <td>{{ $user->school }}</td>
                                 <td>{{ $user->created_at ? $user->created_at->format('Y-m-d') : 'N/A' }}</td>
                                 <td>
                                     @if (!$user->trashed())
@@ -114,10 +124,12 @@
                             @include('dashboards.admin.user.user-edit-modal', ['user' => $user])
                         @endforeach
                     </tbody>
+
                 </table>
             </div>
+            @include('components.pagination', ['pag' => $users])
         </div>
-    </div> 
+    </div>
 
     @include('dashboards.admin.user.user-create-modal')
 
@@ -138,12 +150,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-        
 
         <script>
             $(document).ready(function() {
                 $('#cbtn-selectors').DataTable({
                     dom: 'Bfrtip',
+                    paging: false,
+                    searching: false,
+                    info: false,
                     buttons: [{
                             extend: 'copyHtml5',
                             exportOptions: {
@@ -206,6 +220,5 @@
                 $('#errorMessage').fadeOut('slow');
             }, 3000);
         });
-
     </script>
 </x-app-layout>
