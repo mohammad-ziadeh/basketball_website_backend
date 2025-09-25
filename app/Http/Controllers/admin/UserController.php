@@ -16,6 +16,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query();
+        $showUsers = $request->get('show') === 'all';
+        $allUsers = User::get();
 
         // -------{{ Start Filters }}------- //
 
@@ -48,7 +50,7 @@ class UserController extends Controller
 
         $users = $query->paginate(10);
 
-        return view('dashboards.admin.user.users', compact('users'));
+        return view('dashboards.admin.user.users', compact('users', 'allUsers', 'showUsers'));
     }
 
     /**

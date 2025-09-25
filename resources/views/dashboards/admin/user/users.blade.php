@@ -30,7 +30,8 @@
                             <select name="role" class="form-control">
                                 <option value="all">All Genders</option>
                                 <option value="male" {{ request('role') == 'male' ? 'selected' : '' }}>Male</option>
-                                <option value="female" {{ request('role') == 'female' ? 'selected' : '' }}>Female</option>
+                                <option value="female" {{ request('role') == 'female' ? 'selected' : '' }}>Female
+                                </option>
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -56,11 +57,19 @@
                             <button type="submit" class="btn btn-primary">Filter</button>
                             <a href="{{ route('users.index') }}" class="btn btn-secondary">Reset</a>
                         </div>
-                        <button type="button" class="btn btn-success mb-3" data-toggle="modal"
-                            data-target="#createUserModal"
-                            style="max-width:150px; margin-top: 1rem; margin-left: 15px;">
-                            Add New User
-                        </button>
+                        <div style="display: flex; justify-content: space-between;">
+                            <button type="button" class="btn btn-success mb-3" data-toggle="modal"
+                                data-target="#createUserModal"
+                                style="max-width:150px; margin-top: 1rem; margin-left: 15px;">
+                                Add New User
+                            </button>
+                            <div style=" margin-top: 1rem;">
+                                <a href="{{ route('users.index', ['show' => 'all']) }}" class="btn btn-info">Show
+                                    All</a>
+                                <a href="{{ route('users.index') }}" class="btn btn-secondary">Show Pagination</a>
+                            </div>
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -81,53 +90,105 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{!! $user->gender === 'male' ? '<i class="fa-solid fa-mars"></i>' : '<i class="fa-solid fa-venus"></i>' !!} {{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->role }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td>{{ $user->age }}</td>
-                                <td>{{ $user->school }}</td>
-                                <td>{{ $user->created_at ? $user->created_at->format('Y-m-d') : 'N/A' }}</td>
-                                <td>
-                                    @if (!$user->trashed())
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                            data-target="#editUserModal{{ $user->id }}">Edit</button>
-                                        <form id="delete-form-{{ $user->id }}"
-                                            action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm"
-                                                onclick="confirmDelete({{ $user->id }})">Delete</button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('users.restore', $user->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm">Restore</button>
-                                        </form>
-                                        <form id="perDelete-form-{{ $user->id }}"
-                                            action="{{ route('users.deletePermanently', $user->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm"
-                                                onclick="confirmPerDelete({{ $user->id }})">Delete</button>
-                                        </form>
-                                    @endif
-                                </td>
-                            </tr>
+                        @if ($showUsers == false)
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>
+                                        {!! $user->gender === 'male' ? '<i class="fa-solid fa-mars"></i>' : '<i class="fa-solid fa-venus"></i>' !!}
+                                        {{ $user->name }}
+                                    </td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role }}</td>
+                                    <td>{{ $user->phone }}</td>
+                                    <td>{{ $user->age }}</td>
+                                    <td>{{ $user->school }}</td>
+                                    <td>{{ $user->created_at ? $user->created_at->format('Y-m-d') : 'N/A' }}</td>
+                                    <td>
+                                        @if (!$user->trashed())
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#editUserModal{{ $user->id }}">Edit</button>
+                                            <form id="delete-form-{{ $user->id }}"
+                                                action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="confirmDelete({{ $user->id }})">Delete</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('users.restore', $user->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-warning btn-sm">Restore</button>
+                                            </form>
+                                            <form id="perDelete-form-{{ $user->id }}"
+                                                action="{{ route('users.deletePermanently', $user->id) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="confirmPerDelete({{ $user->id }})">Delete</button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
 
-                            @include('dashboards.admin.user.user-edit-modal', ['user' => $user])
-                        @endforeach
+                                @include('dashboards.admin.user.user-edit-modal', ['user' => $user])
+                            @endforeach
+                        @else
+                            @foreach ($allUsers as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>
+                                        {!! $user->gender === 'male' ? '<i class="fa-solid fa-mars"></i>' : '<i class="fa-solid fa-venus"></i>' !!}
+                                        {{ $user->name }}
+                                    </td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role }}</td>
+                                    <td>{{ $user->phone }}</td>
+                                    <td>{{ $user->age }}</td>
+                                    <td>{{ $user->school }}</td>
+                                    <td>{{ $user->created_at ? $user->created_at->format('Y-m-d') : 'N/A' }}</td>
+                                    <td>
+                                        @if (!$user->trashed())
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#editUserModal{{ $user->id }}">Edit</button>
+                                            <form id="delete-form-{{ $user->id }}"
+                                                action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="confirmDelete({{ $user->id }})">Delete</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('users.restore', $user->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-warning btn-sm">Restore</button>
+                                            </form>
+                                            <form id="perDelete-form-{{ $user->id }}"
+                                                action="{{ route('users.deletePermanently', $user->id) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="confirmPerDelete({{ $user->id }})">Delete</button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </tbody>
+
 
                 </table>
             </div>
-            @include('components.pagination', ['pag' => $users])
+            @if ($showUsers == false)
+                @include('components.pagination', ['pag' => $users])
+            @endif
         </div>
     </div>
 
