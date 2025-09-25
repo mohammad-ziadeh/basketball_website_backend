@@ -27,30 +27,48 @@
                                 <use xlink:href="#custom-status-up"></use>
                             </svg>
                         </span>
-                        <span class="pc-mtext">Dashboard</span>
+                        <span class="pc-mtext">Pages</span>
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                         <span class="pc-badge">2</span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="../dashboard/index.html">Default</a></li>
-                        <li class="pc-item"><a class="pc-link" href="../dashboard/analytics.html">Analytics</a></li>
-                        <li class="pc-item"><a class="pc-link" href="../dashboard/finance.html">Finance</a></li>
+                        <li class="pc-item"><a class="pc-link" href="/dashboard">Dashboard</a></li>
+                        <li class="pc-item"><a class="pc-link" href="/">empty</a>
+                        <li class="pc-item"><a class="pc-link" href="../dashboard/finance.html">empty</a></li>
                     </ul>
+                </li>
+                <li class="pc-item"><a href="/event" class="pc-link">
+                        <span class="pc-micon">
+                            <svg class="pc-icon">
+                                <use xlink:href="#custom-calendar-1"></use>
+                            </svg>
+                        </span>
+                        <span class="pc-mtext">Events</span>
+                    </a>
+                </li>
+                <li class="pc-item"><a href="../other/sample-page.html" class="pc-link">
+                        <span class="pc-micon">
+                            <svg class="pc-icon">
+                                <use xlink:href="#custom-layer"></use>
+                            </svg>
+                        </span>
+                        <span class="pc-mtext">Courses</span>
+                    </a>
                 </li>
 
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon">
                             <svg class="pc-icon">
-                                <use xlink:href="#custom-document"></use>
+                                <use xlink:href="#custom-keyboard"></use>
                             </svg>
                         </span>
                         <span class="pc-mtext">Tables</span>
                         <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{route('users.index')}}">Users</a> </li>
-                        <li class="pc-item"><a class="pc-link" href="../demo/layout-horizontal.html">Horizontal</a>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('users.index') }}">Users</a> </li>
+                        <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 1</a>
                         </li>
                         <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 2</a>
                         </li>

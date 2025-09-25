@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\shared\EventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -33,5 +35,10 @@ Route::middleware('auth')->group(function () {
 
 // User routes
 Route::resource('users', UserController::class);
+
+Route::get('/event', function () {
+    return view('dashboards.shared.events.event');
+});
+Route::resource('events', EventController::class);
 
 require __DIR__.'/auth.php';

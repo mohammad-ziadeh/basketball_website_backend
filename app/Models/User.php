@@ -78,7 +78,7 @@ class User extends Authenticatable
 
     public function uploadedMaterials(): HasMany
     {
-        return $this->hasMany(Material::class, 'uploaded_by');
+        return $this->hasMany(Course::class, 'uploaded_by');
     }
 
     public function attendances(): HasMany

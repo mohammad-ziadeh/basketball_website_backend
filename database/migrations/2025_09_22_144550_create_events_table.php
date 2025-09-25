@@ -11,14 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('events', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('venue')->nullable();
             $table->text('description')->nullable();
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
-            $table->string('location')->nullable();
-            $table->boolean('requires_confirmation')->default(false);
+            $table->enum('type', [
+                'event-primary',
+                'event-secondary',
+                'event-success',
+                'event-danger',
+                'event-warning',
+                'event-info'
+            ])->default('event-primary');
+            $table->datetime('start_date');
+            $table->datetime('end_date')->nullable();
             $table->timestamps();
         });
     }

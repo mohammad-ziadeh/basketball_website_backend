@@ -35,15 +35,6 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select name="gender" class="form-control">
-                                <option value="all">All Genders</option>
-                                <option value="male" {{ request('gender') == 'male' ? 'selected' : '' }}>Male
-                                </option>
-                                <option value="female" {{ request('gender') == 'female' ? 'selected' : '' }}>Female
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
                             <select name="deleted" class="form-control">
                                 <option value="">Active Users</option>
                                 <option value="only" {{ request('deleted') == 'only' ? 'selected' : '' }}>Deleted
@@ -53,7 +44,7 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <button type="submit" class="btn btn-primary">Filter</button>
                             <a href="{{ route('users.index') }}" class="btn btn-secondary">Reset</a>
                         </div>
