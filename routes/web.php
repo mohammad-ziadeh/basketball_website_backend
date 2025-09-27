@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/courses', function () {
+    return view('dashboards.shared.courses.course');
+});
 
 
 Route::get('/dashboard', function () {
@@ -33,12 +36,49 @@ Route::middleware('auth')->group(function () {
 
 
 
-// User routes
+// User routes start
 Route::resource('users', UserController::class);
+// User routes end
 
+
+
+// Event routes start
 Route::get('/event', function () {
     return view('dashboards.shared.events.event');
 });
 Route::resource('events', EventController::class);
+// Event routes end
+
 
 require __DIR__.'/auth.php';
+
+
+// notification start 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', function () {
+        return view('notifications.index');
+    })->name('notifications.index');
+
+    Route::post('/notifications/{id}/read', function ($id) {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return back()->with('success', 'Notification marked as read');
+    })->name('notifications.read');
+
+    Route::post('/notifications/read-all', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+        return back()->with('success', 'All notifications marked as read');
+    })->name('notifications.readAll');
+
+    Route::delete('/notifications/{id}', function ($id) {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->delete();
+        return back()->with('success', 'Notification deleted');
+    })->name('notifications.delete');
+
+    Route::delete('/notifications', function () {
+        auth()->user()->notifications()->delete();
+        return back()->with('success', 'All notifications deleted');
+    })->name('notifications.deleteAll');
+});
+// notification end 

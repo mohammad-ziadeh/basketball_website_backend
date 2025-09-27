@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\shared;
 
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\EventCreatedNotification;
 
 
 class EventController extends Controller
@@ -27,6 +29,12 @@ class EventController extends Controller
         ]);
 
         $event = Event::create($validated);
+
+        $users = User::whereIn('role', ['parent', 'player', 'admin'])->get();
+
+        foreach ($users as $user) {
+            $user->notify(new EventCreatedNotification($event));
+        }
 
         return response()->json($event);
     }

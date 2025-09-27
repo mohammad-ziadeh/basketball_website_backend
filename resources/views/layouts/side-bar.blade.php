@@ -46,7 +46,7 @@
                         <span class="pc-mtext">Events</span>
                     </a>
                 </li>
-                <li class="pc-item"><a href="../other/sample-page.html" class="pc-link">
+                <li class="pc-item"><a href="/courses" class="pc-link">
                         <span class="pc-micon">
                             <svg class="pc-icon">
                                 <use xlink:href="#custom-layer"></use>

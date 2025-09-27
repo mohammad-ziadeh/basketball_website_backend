@@ -86,7 +86,7 @@
 
                 <div class="modal-footer border-top-0 d-flex justify-content-end gap-2"
                     style="padding: 0 1.5rem 1.5rem;">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         style="color: #495057; border-color: #ced4da; background: transparent; border-radius: 4px;">
                         Close
                     </button>

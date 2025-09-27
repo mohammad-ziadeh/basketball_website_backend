@@ -49,8 +49,8 @@
                             <a href="{{ route('users.index') }}" class="btn btn-secondary">Reset</a>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
-                            <button type="button" class="btn btn-success mb-3" data-toggle="modal"
-                                data-target="#createUserModal"
+                            <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal"
+                                data-bs-target="#createUserModal"
                                 style="max-width:150px; margin-top: 1rem; margin-left: 15px;">
                                 Add New User
                             </button>
@@ -92,13 +92,13 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->phone }}</td>
-                                    <td>{{ $user->age }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($user->age)->age }}</td>
                                     <td>{{ $user->school }}</td>
                                     <td>{{ $user->created_at ? $user->created_at->format('Y-m-d') : 'N/A' }}</td>
                                     <td>
                                         @if (!$user->trashed())
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#editUserModal{{ $user->id }}">Edit</button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editUserModal{{ $user->id }}">Edit</button>
                                             <form id="delete-form-{{ $user->id }}"
                                                 action="{{ route('users.destroy', $user->id) }}" method="POST"
                                                 style="display:inline;">
@@ -190,6 +190,7 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
     @endpush
+
 
     @push('scripts')
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

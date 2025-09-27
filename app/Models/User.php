@@ -71,11 +71,6 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
-    public function notifications(): HasMany
-    {
-        return $this->hasMany(Notification::class, 'recipient_id');
-    }
-
     public function uploadedMaterials(): HasMany
     {
         return $this->hasMany(Course::class, 'uploaded_by');

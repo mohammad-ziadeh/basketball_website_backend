@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -18,7 +19,8 @@ class UserController extends Controller
         $query = User::query();
         $showUsers = $request->get('show') === 'all';
         $allUsers = User::get();
-
+        $now = now();
+        
         // -------{{ Start Filters }}------- //
 
 
@@ -50,7 +52,7 @@ class UserController extends Controller
 
         $users = $query->paginate(10);
 
-        return view('dashboards.admin.user.users', compact('users', 'allUsers', 'showUsers'));
+        return view('dashboards.admin.user.users', compact('users', 'allUsers', 'showUsers', 'now'));
     }
 
     /**
@@ -66,10 +68,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         User::create([
             'role' => $request->role,
             'email' => $request->email,
-            'password' => Hash::make('123456789'),
+            'password' => Hash::make('12345678'),
             'gender' => $request->gender,
             'school' => $request->school,
             'phone' => $request->phone,
