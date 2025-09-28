@@ -96,7 +96,7 @@
                             <li class="pc-item"><a class="pc-link" href="{{ route('attendance.index') }}">Players
                                     Attendance</a>
                             </li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Players
+                            <li class="pc-item"><a class="pc-link" href="{{ route('evaluations.index') }}">Players
                                     Evaluation</a>
                             </li>
                             <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Sessions

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\coach\AttendanceController;
+use App\Http\Controllers\coach\EvaluationController;
 use App\Http\Controllers\shared\EventController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,7 @@ Route::resource('events', EventController::class);
 
 Route::resource('attendance', AttendanceController::class);
 
+Route::resource('evaluations', EvaluationController::class);
 
 require __DIR__.'/auth.php';
 

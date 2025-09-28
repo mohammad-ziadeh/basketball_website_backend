@@ -89,7 +89,7 @@ class User extends Authenticatable
 
     public function evaluations(): HasMany
     {
-        return $this->hasMany(Evaluation::class, 'player_id');
+        return $this->hasMany(Evaluation::class, 'user_id');
     }
 
     public function performanceReports(): HasMany
