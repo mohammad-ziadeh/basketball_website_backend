@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('attendance', function (Blueprint $table) {
-            $table->foreign('player_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('coach_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+        Schema::table('attendances', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('marked_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -23,10 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('attendance', function (Blueprint $table) {
-            $table->dropForeign(['player_id']);
-            $table->dropForeign(['coach_id']);
-            $table->dropForeign(['event_id']);
+        Schema::table('attendances', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['marked_by']);
         });
     }
 };

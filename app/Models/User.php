@@ -76,10 +76,16 @@ class User extends Authenticatable
         return $this->hasMany(Course::class, 'uploaded_by');
     }
 
-    public function attendances(): HasMany
+    public function attendance()
     {
-        return $this->hasMany(Attendance::class, 'player_id');
+        return $this->hasMany(Attendance::class, 'user_id');
     }
+
+    public function markedAttendance()
+    {
+        return $this->hasMany(Attendance::class, 'marked_by');
+    }
+
 
     public function evaluations(): HasMany
     {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\coach\AttendanceController;
 use App\Http\Controllers\shared\EventController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,9 @@ Route::get('/event', function () {
 });
 Route::resource('events', EventController::class);
 // Event routes end
+
+
+Route::resource('attendance', AttendanceController::class);
 
 
 require __DIR__.'/auth.php';

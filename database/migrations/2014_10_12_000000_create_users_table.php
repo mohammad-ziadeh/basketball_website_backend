@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('school')->nullable(); 
             $table->dateTime('age')->nullable();
             $table->softDeletes();
-            $table->enum('role', ['admin', 'parent', 'player'])->default('player');
+            $table->enum('role', ['admin', 'parent', 'player', 'coach'])->default('player');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->rememberToken();
             $table->timestamps();

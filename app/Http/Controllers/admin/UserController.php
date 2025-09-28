@@ -5,9 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -20,7 +18,7 @@ class UserController extends Controller
         $showUsers = $request->get('show') === 'all';
         $allUsers = User::get();
         $now = now();
-        
+
         // -------{{ Start Filters }}------- //
 
 
@@ -68,11 +66,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'role' => 'required|in:player,parent,coach,admin',
+            'gender' => 'required|in:male,female',
+            'phone' => 'nullable|string|max:20',
+            'school' => 'nullable|string|max:255',
+            'age' => 'nullable|date',
+            'password' => 'nullable|string|min:8',
+        ]);
 
         User::create([
             'role' => $request->role,
             'email' => $request->email,
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make($request->password ?? '12345678'),
             'gender' => $request->gender,
             'school' => $request->school,
             'phone' => $request->phone,
@@ -92,25 +100,26 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $user = User::findOrFail($id);
-        return view("dashboards.admin.user.users", compact("user"));
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required|in:player,parent,coach,admin',
+            'gender' => 'required|in:male,female',
+            'phone' => 'nullable|string|max:20',
+            'school' => 'nullable|string|max:255',
+            'age' => 'nullable|date',
+            'password' => 'nullable|string|min:8',
+        ]);
+
         $data = [
             'role' => $request->role,
             'email' => $request->email,
-            'password' => Hash::make('123456789'),
             'gender' => $request->gender,
             'school' => $request->school,
             'phone' => $request->phone,
@@ -118,6 +127,7 @@ class UserController extends Controller
             'name' => $request->name,
         ];
 
+        // Update password only if provided
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }

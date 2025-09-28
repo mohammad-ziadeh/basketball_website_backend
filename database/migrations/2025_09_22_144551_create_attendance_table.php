@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendance', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('player_id');
-            $table->unsignedBigInteger('coach_id');
-            $table->unsignedBigInteger('event_id');
-            $table->enum('status', ['present', 'absent', 'late']);
+            $table->unsignedBigInteger('user_id');
+            $table->date('attendance_date');
+            $table->enum('status', ['present', 'absent', 'late'])->default('absent');
+            $table->unsignedBigInteger('marked_by')->nullable();
             $table->timestamps();
+            $table->unique(['user_id', 'attendance_date']);
+            $table->index('attendance_date');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendance');
+        Schema::dropIfExists('attendances');
     }
 };

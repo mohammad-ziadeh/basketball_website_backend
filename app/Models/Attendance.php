@@ -3,25 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Attendance extends Model
 {
-    protected $fillable = ['player_id', 'coach_id', 'event_id', 'status'];
+    use HasFactory;
 
-    public function player(): BelongsTo
+    protected $fillable = [
+        'user_id',
+        'attendance_date',
+        'status',
+        'marked_by',
+    ];
+
+    public function user()
     {
-        return $this->belongsTo(User::class, 'player_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function coach(): BelongsTo
+    public function markedBy()
     {
-        return $this->belongsTo(User::class, 'coach_id');
-    }
-
-    public function event(): BelongsTo
-    {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(User::class, 'marked_by');
     }
 }
 

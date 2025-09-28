@@ -170,6 +170,7 @@
                                         @endif
                                     </td>
                                 </tr>
+                                @include('dashboards.admin.user.user-edit-modal', ['user' => $user])
                             @endforeach
                         @endif
                     </tbody>

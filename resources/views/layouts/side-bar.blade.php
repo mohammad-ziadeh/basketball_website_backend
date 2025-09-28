@@ -15,7 +15,6 @@
             </a>
         </div>
         <div class="navbar-content">
-
             <ul class="pc-navbar">
                 <li class="pc-item pc-caption">
                     <label>Navigation</label>
@@ -37,45 +36,124 @@
                         <li class="pc-item"><a class="pc-link" href="../dashboard/finance.html">empty</a></li>
                     </ul>
                 </li>
-                <li class="pc-item"><a href="/event" class="pc-link">
-                        <span class="pc-micon">
-                            <svg class="pc-icon">
-                                <use xlink:href="#custom-calendar-1"></use>
-                            </svg>
-                        </span>
-                        <span class="pc-mtext">Events</span>
-                    </a>
-                </li>
-                <li class="pc-item"><a href="/courses" class="pc-link">
-                        <span class="pc-micon">
-                            <svg class="pc-icon">
-                                <use xlink:href="#custom-layer"></use>
-                            </svg>
-                        </span>
-                        <span class="pc-mtext">Courses</span>
-                    </a>
-                </li>
+                {{-- ##################################################### --}}
 
-                <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                        <span class="pc-micon">
-                            <svg class="pc-icon">
-                                <use xlink:href="#custom-keyboard"></use>
-                            </svg>
-                        </span>
-                        <span class="pc-mtext">Tables</span>
-                        <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ route('users.index') }}">Users</a> </li>
-                        <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 1</a>
-                        </li>
-                        <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 2</a>
-                        </li>
-                        <li class="pc-item"><a class="pc-link" href="../demo/layout-compact.html">Compact</a> </li>
-                        <li class="pc-item"><a class="pc-link" href="../demo/layout-tab.html">Tab</a></li>
-                    </ul>
-                </li>
+                @if (Auth::user() && Auth::user()->role === 'admin')
+                    <li class="pc-item"><a href="/event" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-calendar-1"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Events</span>
+                        </a>
+                    </li>
+                    <li class="pc-item"><a href="/courses" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-layer"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Courses</span>
+                        </a>
+                    </li>
+
+                    <li class="pc-item pc-hasmenu">
+                        <a href="#!" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-keyboard"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Tables</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item"><a class="pc-link" href="{{ route('users.index') }}">Users</a> </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 1</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 2</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-compact.html">Compact</a> </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-tab.html">Tab</a></li>
+                        </ul>
+                    </li>
+                @elseif (Auth::user() && Auth::user()->role === 'coach')
+                    <li class="pc-item pc-hasmenu">
+                        <a href="#!" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-keyboard"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Tables</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item"><a class="pc-link" href="{{ route('users.index') }}">users
+                                    </a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('attendance.index') }}">Players
+                                    Attendance</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Players
+                                    Evaluation</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Sessions
+                                    Players Performance</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-compact.html">Compact</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-tab.html">Tab</a></li>
+                        </ul>
+                    </li>
+                @elseif (Auth::user() && Auth::user()->role === 'parent')
+                    <li class="pc-item"><a href="/event" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-calendar-1"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Events</span>
+                        </a>
+                    </li>
+                    <li class="pc-item"><a href="/courses" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-layer"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Courses</span>
+                        </a>
+                    </li>
+
+                    <li class="pc-item pc-hasmenu">
+                        <a href="#!" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-keyboard"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Tables</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item"><a class="pc-link" href="{{ route('users.index') }}">Users</a> </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts
+                                    1</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts
+                                    2</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-compact.html">Compact</a>
+                            </li>
+                            <li class="pc-item"><a class="pc-link" href="../demo/layout-tab.html">Tab</a></li>
+                        </ul>
+                    </li>
+                @else
+                    <h1>nothing for now</h1>
+                @endif
+                {{-- ##################################################### --}}
 
                 <li class="pc-item pc-caption">
                     <label>Other</label>
