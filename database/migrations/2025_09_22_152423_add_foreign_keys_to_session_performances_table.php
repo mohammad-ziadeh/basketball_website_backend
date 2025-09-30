@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('performance_reports', function (Blueprint $table) {
+        Schema::table('session_performances', function (Blueprint $table) {
             $table->foreign('player_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('coach_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
         });
     }
 
@@ -23,10 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('performance_reports', function (Blueprint $table) {
+        Schema::table('session_performances', function (Blueprint $table) {
             $table->dropForeign(['player_id']);
-            $table->dropForeign(['coach_id']);
-            $table->dropForeign(['event_id']);
         });
     }
 };

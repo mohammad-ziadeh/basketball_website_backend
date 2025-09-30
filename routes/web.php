@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\coach\AttendanceController;
 use App\Http\Controllers\coach\EvaluationController;
+use App\Http\Controllers\coach\MonthlyPerformanceController;
+use App\Http\Controllers\coach\SessionPerformanceController;
 use App\Http\Controllers\shared\EventController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +58,17 @@ Route::resource('attendance', AttendanceController::class);
 
 Route::resource('evaluations', EvaluationController::class);
 
-require __DIR__.'/auth.php';
+
+
+Route::resource('session_performances', SessionPerformanceController::class)->except(['edit']);
+Route::get('monthly_performances', [MonthlyPerformanceController::class, 'index'])->name('monthly_performances.index');
+Route::get('monthly_performances/{player}', [MonthlyPerformanceController::class, 'show'])->name('monthly_performances.show');
+Route::get('monthly_performances/export/{monthly}', [MonthlyPerformanceController::class, 'exportPdf'])
+    ->name('monthly_performances.export');
+
+
+
+require __DIR__ . '/auth.php';
 
 
 // notification start 

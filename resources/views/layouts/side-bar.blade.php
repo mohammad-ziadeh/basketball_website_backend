@@ -99,10 +99,9 @@
                             <li class="pc-item"><a class="pc-link" href="{{ route('evaluations.index') }}">Players
                                     Evaluation</a>
                             </li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Sessions
-                                    Players Performance</a>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('session_performances.index') }}">Sessions Performance</a>
                             </li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-compact.html">Compact</a>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('monthly_performances.index') }}">Monthly Performance</a>
                             </li>
                             <li class="pc-item"><a class="pc-link" href="../demo/layout-tab.html">Tab</a></li>
                         </ul>

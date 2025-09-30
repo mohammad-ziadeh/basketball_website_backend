@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // payer or receiver
+            $table->unsignedBigInteger('user_id');
             $table->enum('type', ['payment', 'expense', 'revenue']);
             $table->decimal('amount', 10, 2);
             $table->string('description')->nullable();
-            $table->date('due_date')->nullable(); // for parent tracking
+            $table->date('due_date')->nullable();
             $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
             $table->timestamps();
         });

@@ -92,11 +92,6 @@ class User extends Authenticatable
         return $this->hasMany(Evaluation::class, 'user_id');
     }
 
-    public function performanceReports(): HasMany
-    {
-        return $this->hasMany(PerformanceReport::class, 'player_id');
-    }
-
     public function achievements(): HasMany
     {
         return $this->hasMany(Achievement::class, 'player_id');
