@@ -47,8 +47,8 @@
                                 style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
                         </div>
                         <div class="col-md-6">
-                            <label for="age" class="form-label" style="color: #000000;">Birth Date</label>
-                            <input type="date" class="form-control" name="age" style="border-radius: 5px;">
+                            <label for="dob" class="form-label" style="color: #000000;">Birth Date</label>
+                            <input type="date" class="form-control" name="dob" style="border-radius: 5px;">
                         </div>
                     </div>
 
@@ -69,6 +69,7 @@
                                 <option value="player">Player</option>
                                 <option value="coach">Coach</option>
                                 <option value="admin">Admin</option>
+                                <option value="parent">Parent</option>
                             </select>
                         </div>
                     </div>

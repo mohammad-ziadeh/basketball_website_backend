@@ -55,9 +55,9 @@
                                 style="border: 1px solid #ced4da; border-radius: 4px; padding: 0.375rem 0.75rem;">
                         </div>
                         <div class="col-md-6">
-                            <label for="age" class="form-label" style="color: #000000;">Birth Date</label>
-                            <input type="date" class="form-control" name="age"
-                                value="{{ $user->age ? \Carbon\Carbon::parse($user->age)->format('Y-m-d') : '' }}"
+                            <label for="dob" class="form-label" style="color: #000000;">Birth Date</label>
+                            <input type="date" class="form-control" name="dob"
+                                value="{{ $user->dob ? \Carbon\Carbon::parse($user->dob)->format('Y-m-d') : '' }}"
                                 style="border-radius: 5px;">
                         </div>
                     </div>
@@ -79,6 +79,7 @@
                                 <option value="player" {{ $user->role == 'player' ? 'selected' : '' }}>Player</option>
                                 <option value="coach" {{ $user->role == 'coach' ? 'selected' : '' }}>Coach</option>
                                 <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="parent" {{ $user->role == 'parent' ? 'selected' : '' }}>Parent</option>
                             </select>
                         </div>
                     </div>

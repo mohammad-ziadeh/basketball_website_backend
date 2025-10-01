@@ -73,7 +73,7 @@ class UserController extends Controller
             'gender' => 'required|in:male,female',
             'phone' => 'nullable|string|max:20',
             'school' => 'nullable|string|max:255',
-            'age' => 'nullable|date',
+            'dob' => 'nullable|date',
             'password' => 'nullable|string|min:8',
         ]);
 
@@ -84,7 +84,7 @@ class UserController extends Controller
             'gender' => $request->gender,
             'school' => $request->school,
             'phone' => $request->phone,
-            'age' => $request->age,
+            'dob' => $request->dob,
             'name' => $request->name,
         ]);
 
@@ -100,7 +100,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage
      */
     public function update(Request $request, $id)
     {
@@ -113,7 +113,7 @@ class UserController extends Controller
             'gender' => 'required|in:male,female',
             'phone' => 'nullable|string|max:20',
             'school' => 'nullable|string|max:255',
-            'age' => 'nullable|date',
+            'dob' => 'nullable|date',
             'password' => 'nullable|string|min:8',
         ]);
 
@@ -123,11 +123,10 @@ class UserController extends Controller
             'gender' => $request->gender,
             'school' => $request->school,
             'phone' => $request->phone,
-            'age' => $request->age,
+            'dob' => $request->dob,
             'name' => $request->name,
         ];
 
-        // Update password only if provided
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -138,7 +137,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from stordob.
      */
     public function destroy($id)
     {
@@ -161,5 +160,31 @@ class UserController extends Controller
         $user->forceDelete();
 
         return redirect()->route('users.index')->with('success', 'User deleted permanently');
+    }
+
+    public function showChildren($parentId)
+    {
+        $parent = User::with('children')->where('role', 'parent')->findOrFail($parentId);
+        $allPlayers = User::where('role', 'player')->orderBy('name')->get();
+
+        return view('dashboards.admin.user.parent-child-assign', compact('parent', 'allPlayers'));
+    }
+
+    public function updateChildren(Request $request, $parentId)
+    {
+        $parent = User::where('role', 'parent')->findOrFail($parentId);
+
+        $request->validate([
+            'children' => 'array',
+            'children.*' => 'exists:users,id',
+        ]);
+
+        User::where('parent_id', $parent->id)->update(['parent_id' => null]);
+
+        if ($request->has('children')) {
+            User::whereIn('id', $request->children)->update(['parent_id' => $parent->id]);
+        }
+
+        return redirect()->back()->with('success', 'Children assigned successfully.');
     }
 }

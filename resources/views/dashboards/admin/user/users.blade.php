@@ -27,10 +27,10 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select name="role" class="form-control">
+                            <select name="gender" class="form-control">
                                 <option value="all">All Genders</option>
-                                <option value="male" {{ request('role') == 'male' ? 'selected' : '' }}>Male</option>
-                                <option value="female" {{ request('role') == 'female' ? 'selected' : '' }}>Female
+                                <option value="male" {{ request('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="female" {{ request('gender') == 'female' ? 'selected' : '' }}>Female
                                 </option>
                             </select>
                         </div>
@@ -92,7 +92,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->phone }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($user->age)->age }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($user->dob)->age }}</td>
                                     <td>{{ $user->school }}</td>
                                     <td>{{ $user->created_at ? $user->created_at->format('Y-m-d') : 'N/A' }}</td>
                                     <td>
@@ -107,6 +107,12 @@
                                                 <button type="button" class="btn btn-danger btn-sm"
                                                     onclick="confirmDelete({{ $user->id }})">Delete</button>
                                             </form>
+                                            @if ($user->role === 'parent')
+                                                <a href="{{ route('parent-child.showChildren', $user->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    View Tree
+                                                </a>
+                                            @endif
                                         @else
                                             <form action="{{ route('users.restore', $user->id) }}" method="POST"
                                                 style="display:inline;">
@@ -138,7 +144,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->phone }}</td>
-                                    <td>{{ $user->age }}</td>
+                                    <td>{{ $user->dob }}</td>
                                     <td>{{ $user->school }}</td>
                                     <td>{{ $user->created_at ? $user->created_at->format('Y-m-d') : 'N/A' }}</td>
                                     <td>

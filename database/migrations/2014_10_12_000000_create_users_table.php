@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone')->nullable(); 
-            $table->string('gender')->nullable(); 
-            $table->string('school')->nullable(); 
-            $table->dateTime('age')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('school')->nullable();
+            $table->date('dob')->nullable();
             $table->softDeletes();
             $table->enum('role', ['admin', 'parent', 'player', 'coach'])->default('player');
             $table->unsignedBigInteger('parent_id')->nullable();

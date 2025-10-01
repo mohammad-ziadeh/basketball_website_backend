@@ -14,8 +14,36 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
-        return response()->json($events);
+
+        $users = User::whereNotNull('dob')->get();
+        $birthdayEvents = [];
+
+        foreach ($users as $user) {
+            $dob = \Carbon\Carbon::parse($user->dob);
+
+            // Generate for this year and next year
+            for ($i = 0; $i < 2; $i++) {
+                $year = now()->year + $i;
+                $birthday = $dob->copy()->year($year); // keep same month/day, just change year
+
+                $birthdayEvents[] = [
+                    'id' => 'birthday-' . $user->id . '-' . $year,
+                    'title' => $user->name . "'s Birthday 🎂 (Turns " . $birthday->diffInYears($dob) . ")",
+                    'start_date' => $birthday->format('Y-m-d'),
+                    'end_date' => $birthday->format('Y-m-d'),
+                    'description' => $user->name . "'s Birthday",
+                    'venue' => null,
+                    'type' => 'event-info',
+                ];
+            }
+        }
+
+        $allEvents = array_merge($events->toArray(), $birthdayEvents);
+
+        return response()->json($allEvents);
     }
+
+
 
     public function store(Request $request)
     {
