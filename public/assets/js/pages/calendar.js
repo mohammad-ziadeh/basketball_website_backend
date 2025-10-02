@@ -29,7 +29,6 @@
                 hour12: false,
             },
             select: function (info) {
-                // Use local date/time, not ISO string
                 document.getElementById("pc-e-sdate").value = formatLocal(
                     info.start
                 );
@@ -50,6 +49,7 @@
             },
             eventClick: function (info) {
                 calEvent = info.event;
+
                 document.querySelector(".calendar-modal-title").textContent =
                     calEvent.title;
                 document.querySelector(".pc-event-title").textContent =
@@ -63,7 +63,108 @@
                         : "");
                 document.querySelector(".pc-event-venue").textContent =
                     calEvent.extendedProps.venue || "";
+
                 calendarModal.show();
+
+                const confirmBtn = document.getElementById("btn-confirm-event");
+                const declineBtn = document.getElementById("btn-decline-event");
+
+                if (confirmBtn) {
+                    confirmBtn.onclick = () => {
+                        if (isNaN(calEvent.id)) {
+                            Swal.fire(
+                                "Error",
+                                "You cannot confirm/decline this event",
+                                "error"
+                            );
+                            return;
+                        }
+                        axios
+                            .post(`/events/${calEvent.id}/confirm`, {
+                                status: "confirmed",
+                            })
+                            .then(() => {
+                                Swal.fire(
+                                    "Confirmed",
+                                    "You have confirmed attendance",
+                                    "success"
+                                );
+                                calendarModal.hide();
+                            })
+                            .catch((err) => {
+                                console.error(err.response);
+                                Swal.fire(
+                                    "Error",
+                                    err.response?.data?.error ||
+                                        "Failed to confirm",
+                                    "error"
+                                );
+                            });
+                    };
+                }
+
+                if (declineBtn) {
+                    declineBtn.onclick = () => {
+                        if (isNaN(calEvent.id)) {
+                            Swal.fire(
+                                "Error",
+                                "You cannot confirm/decline this event",
+                                "error"
+                            );
+                            return;
+                        }
+                        axios
+                            .post(`/events/${calEvent.id}/confirm`, {
+                                status: "declined",
+                            })
+                            .then(() => {
+                                Swal.fire(
+                                    "Declined",
+                                    "You have declined attendance",
+                                    "info"
+                                );
+                                calendarModal.hide();
+                            })
+                            .catch((err) => {
+                                console.error(err.response);
+                                Swal.fire(
+                                    "Error",
+                                    err.response?.data?.error ||
+                                        "Failed to decline",
+                                    "error"
+                                );
+                            });
+                    };
+                }
+
+                if (["admin", "coach"].includes(window.userRole)) {
+                    axios
+                        .get(`/events/${calEvent.id}/confirmations`)
+                        .then((res) => {
+                            const list = document.getElementById(
+                                "parent-confirmations-list"
+                            );
+                            if (!list) return;
+                            list.innerHTML = "";
+                            res.data.forEach((c) => {
+                                const li = document.createElement("li");
+                                li.className =
+                                    "list-group-item d-flex justify-content-between";
+                                li.textContent = c.parent.name;
+                                const badge = document.createElement("span");
+                                badge.className =
+                                    "badge " +
+                                    (c.status === "confirmed"
+                                        ? "bg-success"
+                                        : c.status === "declined"
+                                        ? "bg-danger"
+                                        : "bg-secondary");
+                                badge.textContent = c.status;
+                                li.appendChild(badge);
+                                list.appendChild(li);
+                            });
+                        });
+                }
             },
             events: function (fetchInfo, successCallback, failureCallback) {
                 axios
@@ -72,7 +173,7 @@
                         const events = res.data.map((ev) => ({
                             id: ev.id,
                             title: ev.title,
-                            start: ev.start_date, // keep local datetime string
+                            start: ev.start_date,
                             end: ev.end_date,
                             description: ev.description,
                             venue: ev.venue,
@@ -87,7 +188,6 @@
 
     calendar.render();
 
-    // Format local datetime for inputs (YYYY-MM-DDTHH:MM)
     function formatLocal(date) {
         const pad = (n) => n.toString().padStart(2, "0");
         const d = new Date(date);
@@ -96,7 +196,6 @@
         )}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
     }
 
-    // Format local datetime for display
     function formatLocalDisplay(date) {
         const d = new Date(date);
         const pad = (n) => n.toString().padStart(2, "0");

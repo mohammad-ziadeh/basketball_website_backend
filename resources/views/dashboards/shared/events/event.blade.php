@@ -17,7 +17,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="calendar-modal-title f-w-600 text-truncate">Modal title</h3>
-                    <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default ms-auto" data-bs-dismiss="modal">
+                    <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default ms-auto"
+                        data-bs-dismiss="modal">
                         <i class="ti ti-x f-20"></i>
                     </a>
                 </div>
@@ -67,25 +68,45 @@
                         </div>
                     </div>
                 </div>
+
+                    @if (Auth::check() && in_array(Auth::user()->role, ['admin', 'coach']))
+                        <div class="mt-4">
+                            <h5 class="mb-3" style="padding: 0 20px 0 20px">Parent Confirmations</h5>
+                            <div class="border rounded p-2"
+                                style="max-height: 200px; overflow-y: auto; background-color: #f8f9fa;">
+                                <ul id="parent-confirmations-list" class="list-group list-group-flush">
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
+
                 <div class="modal-footer justify-content-between">
-                    <ul class="list-inline me-auto mb-0">
-                        <li class="list-inline-item align-bottom">
-                            <a href="#" id="pc_event_remove"
-                                class="avtar avtar-s btn-link-danger btn-pc-default w-sm-auto" data-bs-toggle="tooltip"
-                                title="Delete">
-                                <i class="ti ti-trash f-18"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item align-bottom">
-                            <a href="#" id="pc_event_edit" class="avtar avtar-s btn-link-success btn-pc-default"
-                                data-bs-toggle="tooltip" title="Edit">
-                                <i class="ti ti-edit-circle f-18"></i>
-                            </a>
-                        </li>
-                    </ul>
+                    @if (Auth::check() && Auth::user()->role === 'parent')
+                        <button type="button" class="btn btn-success" id="btn-confirm-event">Confirm</button>
+                        <button type="button" class="btn btn-danger" id="btn-decline-event">Decline</button>
+                    @endif
+                    @if (Auth::check() && in_array(Auth::user()->role, ['admin', 'coach']))
+                        <ul class="list-inline me-auto mb-0">
+                            <li class="list-inline-item align-bottom">
+                                <a href="#" id="pc_event_remove"
+                                    class="avtar avtar-s btn-link-danger btn-pc-default w-sm-auto"
+                                    data-bs-toggle="tooltip" title="Delete">
+                                    <i class="ti ti-trash f-18"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item align-bottom">
+                                <a href="#" id="pc_event_edit"
+                                    class="avtar avtar-s btn-link-success btn-pc-default" data-bs-toggle="tooltip"
+                                    title="Edit">
+                                    <i class="ti ti-edit-circle f-18"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    @endif
                     <div class="flex-grow-1 text-end">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -95,7 +116,8 @@
         @if (Auth::check() && Auth::user()->role === 'admin')
             <div class="offcanvas-header">
                 <h3 class="f-w-600 text-truncate">Add Events</h3>
-                <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default ms-auto" data-bs-dismiss="offcanvas">
+                <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default ms-auto"
+                    data-bs-dismiss="offcanvas">
                     <i class="ti ti-x f-20"></i>
                 </a>
             </div>
@@ -103,11 +125,13 @@
                 <form id="pc-form-event" novalidate>
                     <div class="mb-3">
                         <label class="form-label">Title</label>
-                        <input type="text" class="form-control" id="pc-e-title" placeholder="Enter event title" autofocus />
+                        <input type="text" class="form-control" id="pc-e-title" placeholder="Enter event title"
+                            autofocus />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Venue</label>
-                        <input type="text" class="form-control" id="pc-e-venue" placeholder="Enter event venue" />
+                        <input type="text" class="form-control" id="pc-e-venue"
+                            placeholder="Enter event venue" />
                     </div>
                     <input type="hidden" class="form-control" id="pc-e-sdate" />
                     <input type="hidden" class="form-control" id="pc-e-edate" />
@@ -129,13 +153,15 @@
                     </div>
                     <div class="row justify-content-between">
                         <div class="col-auto">
-                            <button type="button" class="btn btn-link-danger btn-pc-default" data-bs-dismiss="offcanvas">
+                            <button type="button" class="btn btn-link-danger btn-pc-default"
+                                data-bs-dismiss="offcanvas">
                                 <i class="align-text-bottom me-1 ti ti-circle-x"></i> Close
                             </button>
                         </div>
                         <div class="col-auto">
                             <button id="pc_event_add" type="button" class="btn btn-secondary" data-pc-action="add">
-                                <span id="pc-e-btn-text"><i class="align-text-bottom me-1 ti ti-calendar-plus"></i> Add</span>
+                                <span id="pc-e-btn-text"><i class="align-text-bottom me-1 ti ti-calendar-plus"></i>
+                                    Add</span>
                             </button>
                         </div>
                     </div>
@@ -144,7 +170,8 @@
         @else
             <div class="offcanvas-header">
                 <h3 class="f-w-600 text-truncate">No Event</h3>
-                <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default ms-auto" data-bs-dismiss="offcanvas">
+                <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default ms-auto"
+                    data-bs-dismiss="offcanvas">
                     <i class="ti ti-x f-20"></i>
                 </a>
             </div>
@@ -158,8 +185,10 @@
     <script src="{{ asset('assets/js/fonts/custom-font.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/index.global.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('assets/js/pages/calendar.js') }}"></script>
-    
 
+    <script>
+        window.userRole = "{{ Auth::user()->role }}";
+    </script>
 </x-app-layout>

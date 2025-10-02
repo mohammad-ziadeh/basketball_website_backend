@@ -106,4 +106,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Schedule::class, 'player_id');
     }
+
+    public function confirmations()
+    {
+        return $this->hasMany(EventConfirmation::class, 'parent_id');
+    }
 }

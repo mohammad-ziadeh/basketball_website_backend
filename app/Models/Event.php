@@ -26,11 +26,6 @@ class Event extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    public function performanceReports(): HasMany
-    {
-        return $this->hasMany(PerformanceReport::class);
-    }
-
     public function schedules(): HasMany
     {
         return $this->hasMany(Schedule::class);

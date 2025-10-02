@@ -4,9 +4,11 @@ namespace App\Http\Controllers\shared;
 
 use App\Models\Event;
 use App\Models\User;
+use App\Models\EventConfirmation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\EventCreatedNotification;
+use Illuminate\Support\Facades\Auth;
 
 
 class EventController extends Controller
@@ -87,5 +89,36 @@ class EventController extends Controller
     {
         $event->delete();
         return response()->json(['success' => true]);
+    }
+
+
+    public function confirm(Request $request, Event $event)
+    {
+        $request->validate([
+            'status' => 'required|in:confirmed,declined',
+        ]);
+
+        if (Auth::user()->role !== 'parent') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $confirmation = EventConfirmation::updateOrCreate(
+            [
+                'event_id' => $event->id,
+                'parent_id' => Auth::id(),
+            ],
+            [
+                'status' => $request->status,
+            ]
+        );
+
+        return response()->json($confirmation);
+    }
+    public function confirmations(Event $event)
+    {
+
+        $confirmations = $event->confirmations()->with('parent')->get();
+
+        return response()->json($confirmations);
     }
 }

@@ -57,6 +57,8 @@ Route::get('/event', function () {
     return view('dashboards.shared.events.event');
 });
 Route::resource('events', EventController::class);
+Route::post('/events/{event}/confirm', [EventController::class, 'confirm']);
+Route::get('/events/{event}/confirmations', [EventController::class, 'confirmations']);
 // Event routes end
 
 // Attendance routes start
