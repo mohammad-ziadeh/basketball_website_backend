@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ChildAbsentNotification;
 
 class AttendanceController extends Controller
 {
@@ -55,7 +56,7 @@ class AttendanceController extends Controller
         ]);
 
         foreach ($request->attendance as $att) {
-            Attendance::updateOrCreate(
+            $attendance = Attendance::updateOrCreate(
                 [
                     'user_id' => $att['user_id'],
                     'attendance_date' => $request->date,
@@ -65,11 +66,22 @@ class AttendanceController extends Controller
                     'marked_by' => Auth::id(),
                 ]
             );
+
+            if ($attendance->status === 'absent') {
+                $child = User::find($attendance->user_id);
+
+                if ($child && $child->parent) { 
+                    $child->parent->notify(
+                        new ChildAbsentNotification($child, $request->date, $att['status'])
+                    );
+                }
+            }
         }
 
         return redirect()->route('attendance.index')
             ->with('success', 'Attendance saved successfully.');
     }
+
 
 
     public function edit(Attendance $attendance)

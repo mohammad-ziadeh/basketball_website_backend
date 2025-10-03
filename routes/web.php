@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\admin\ParentChildController;
 use App\Http\Controllers\coach\AttendanceController;
+use App\Http\Controllers\parent\ChildAttendanceController;
 use App\Http\Controllers\coach\EvaluationController;
 use App\Http\Controllers\coach\MonthlyPerformanceController;
 use App\Http\Controllers\coach\SessionPerformanceController;
@@ -61,25 +61,26 @@ Route::post('/events/{event}/confirm', [EventController::class, 'confirm']);
 Route::get('/events/{event}/confirmations', [EventController::class, 'confirmations']);
 // Event routes end
 
-// Attendance routes start
+// Coach Attendance routes start
 Route::resource('attendance', AttendanceController::class);
-// Attendance routes end
+// Coach Attendance routes end
 
 
-// evaluations routes start
+// Coach evaluations routes start
 Route::resource('evaluations', EvaluationController::class);
-// evaluations routes end
+// Coach evaluations routes end
 
 
 
-// session performances routes start
+// Coach session performances routes start
 Route::resource('session_performances', SessionPerformanceController::class)->except(['edit']);
 Route::get('monthly_performances', [MonthlyPerformanceController::class, 'index'])->name('monthly_performances.index');
 Route::get('monthly_performances/{player}', [MonthlyPerformanceController::class, 'show'])->name('monthly_performances.show');
 Route::get('monthly_performances/export/{monthly}', [MonthlyPerformanceController::class, 'exportPdf'])
     ->name('monthly_performances.export');
-// session performances routes end
+// Coach session performances routes end
 
+    Route::get('/parent/attendance', [ChildAttendanceController::class, 'index'])->name('parent.attendance.index');
 
 require __DIR__ . '/auth.php';
 

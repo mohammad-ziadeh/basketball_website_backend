@@ -1,9 +1,4 @@
-<div class="loader-bg">
-    <div class="loader-track">
-        <div class="loader-fill"></div>
-    </div>
-</div>
-<!-- [ Pre-loader ] End -->
+
 <!-- [ Sidebar Menu ] start -->
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
@@ -116,13 +111,13 @@
                             <span class="pc-mtext">Events</span>
                         </a>
                     </li>
-                    <li class="pc-item"><a href="/courses" class="pc-link">
+                    <li class="pc-item"><a href="{{ route('parent.attendance.index') }}" class="pc-link">
                             <span class="pc-micon">
                                 <svg class="pc-icon">
                                     <use xlink:href="#custom-layer"></use>
                                 </svg>
                             </span>
-                            <span class="pc-mtext">Courses</span>
+                            <span class="pc-mtext">Attendance</span>
                         </a>
                     </li>
 

@@ -10,6 +10,35 @@
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || '{{ $pc_theme_layout ?? 'light' }}';
+            const html = document.documentElement;
+
+            if (savedTheme === 'dark') {
+                html.setAttribute('data-bs-theme', 'dark');
+                html.setAttribute('data-pc-theme', 'dark');
+                html.style.backgroundColor = '#212529';
+            } else {
+                html.setAttribute('data-bs-theme', 'light');
+                html.setAttribute('data-pc-theme', 'light');
+                html.style.backgroundColor = '#f8f9fa';
+            }
+
+            // Reveal body after theme applied
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.style.visibility = 'visible';
+            });
+        })();
+    </script>
+
+    <!-- Hide body initially to prevent flash -->
+    <style>
+        body {
+            visibility: hidden;
+            transition: none !important;
+        }
+    </style>
 
     <!-- Template Fonts -->
     <link rel="stylesheet" href="{{ asset('assets/fonts/inter/inter.css') }}">
@@ -33,6 +62,11 @@
 
     <!-- Optional tech-stack JS -->
     <script src="{{ asset('assets/js/tech-stack.js') }}"></script>
+
+    <script src="{{ asset('assets/js/tech-stack.js') }}"></script>
+
+
+
 </head>
 
 <body class="font-sans antialiased">
@@ -65,11 +99,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <!-- Conditional Template Scripts -->
-    @if (!empty($pc_dark_layout))
+    @if (!empty($pc_theme_layout))
         <script>
-            layout_change('{{ $pc_dark_layout }}');
+            if (!localStorage.getItem('theme')) {
+                layout_change('{{ $pc_theme_layout }}');
+            }
         </script>
     @endif
+
     @if (!empty($pc_theme_contrast))
         <script>
             layout_theme_contrast_change('{{ $pc_theme_contrast }}');
@@ -100,6 +137,22 @@
             main_layout_change('{{ $pc_theme_layout }}');
         </script>
     @endif
+    <script>
+        function layout_change(theme) {
+            const html = document.documentElement;
+            if (theme === 'dark') {
+                html.setAttribute('data-bs-theme', 'dark');
+                html.setAttribute('data-pc-theme', 'dark');
+                html.style.backgroundColor = '#212529';
+            } else {
+                html.setAttribute('data-bs-theme', 'light');
+                html.setAttribute('data-pc-theme', 'light');
+                html.style.backgroundColor = '#f8f9fa';
+            }
+            localStorage.setItem('theme', theme);
+        }
+    </script>
+
 
     @stack('scripts')
 

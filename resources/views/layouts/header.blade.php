@@ -285,11 +285,20 @@
                                 </a>
                                 <hr class="border-secondary border-opacity-50" />
                                 <div class="d-grid mb-3">
-                                    <button class="btn btn-primary">
-                                        <svg class="pc-icon me-2">
-                                            <use xlink:href="#custom-logout-1-outline"></use>
-                                        </svg>Logout
-                                    </button>
+
+
+
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <a :href="route('logout')"
+                                            onclick="event.preventDefault();
+                                        this.closest('form').submit();"
+                                            class="btn btn-primary">
+                                            <svg class="pc-icon me-2">
+                                                <use xlink:href="#custom-logout-1-outline"></use>
+                                            </svg>Logout
+                                        </a>
+                                    </form>
                                 </div>
 
                             </div>

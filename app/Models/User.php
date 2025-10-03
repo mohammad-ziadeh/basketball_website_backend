@@ -55,7 +55,6 @@ class User extends Authenticatable
 
 
 
-    // Self-referencing parent
     public function parent(): BelongsTo
     {
         return $this->belongsTo(User::class, 'parent_id');

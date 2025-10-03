@@ -23,10 +23,9 @@ class EventController extends Controller
         foreach ($users as $user) {
             $dob = \Carbon\Carbon::parse($user->dob);
 
-            // Generate for this year and next year
             for ($i = 0; $i < 2; $i++) {
                 $year = now()->year + $i;
-                $birthday = $dob->copy()->year($year); // keep same month/day, just change year
+                $birthday = $dob->copy()->year($year);
 
                 $birthdayEvents[] = [
                     'id' => 'birthday-' . $user->id . '-' . $year,
