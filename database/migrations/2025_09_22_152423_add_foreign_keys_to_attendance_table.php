@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('attendances', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('marked_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
         });
     }
 
@@ -25,6 +27,8 @@ return new class extends Migration
         Schema::table('attendances', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['marked_by']);
+            $table->dropForeign(['course_id']);
+            $table->dropForeign(['session_id']);
         });
     }
 };

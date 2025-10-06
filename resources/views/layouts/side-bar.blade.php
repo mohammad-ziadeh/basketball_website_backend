@@ -1,4 +1,3 @@
-
 <!-- [ Sidebar Menu ] start -->
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
@@ -43,15 +42,6 @@
                             <span class="pc-mtext">Events</span>
                         </a>
                     </li>
-                    <li class="pc-item"><a href="/courses" class="pc-link">
-                            <span class="pc-micon">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-layer"></use>
-                                </svg>
-                            </span>
-                            <span class="pc-mtext">Courses</span>
-                        </a>
-                    </li>
 
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link">
@@ -74,6 +64,15 @@
                         </ul>
                     </li>
                 @elseif (Auth::user() && Auth::user()->role === 'coach')
+                    <li class="pc-item"><a href="{{ route('courses.index') }}" class="pc-link">
+                            <span class="pc-micon">
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-layer"></use>
+                                </svg>
+                            </span>
+                            <span class="pc-mtext">Courses</span>
+                        </a>
+                    </li>
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link">
                             <span class="pc-micon">
@@ -86,7 +85,7 @@
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item"><a class="pc-link" href="{{ route('users.index') }}">users
-                                    </a>
+                                </a>
                             </li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('attendance.index') }}">Players
                                     Attendance</a>
@@ -94,9 +93,11 @@
                             <li class="pc-item"><a class="pc-link" href="{{ route('evaluations.index') }}">Players
                                     Evaluation</a>
                             </li>
-                            <li class="pc-item"><a class="pc-link" href="{{ route('session_performances.index') }}">Sessions Performance</a>
+                            <li class="pc-item"><a class="pc-link"
+                                    href="{{ route('session_performances.index') }}">Sessions Performance</a>
                             </li>
-                            <li class="pc-item"><a class="pc-link" href="{{ route('monthly_performances.index') }}">Monthly Performance</a>
+                            <li class="pc-item"><a class="pc-link"
+                                    href="{{ route('monthly_performances.index') }}">Monthly Performance</a>
                             </li>
                             <li class="pc-item"><a class="pc-link" href="../demo/layout-tab.html">Tab</a></li>
                         </ul>

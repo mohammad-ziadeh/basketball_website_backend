@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Attendance extends Model
 {
     use HasFactory;
@@ -24,5 +25,13 @@ class Attendance extends Model
     {
         return $this->belongsTo(User::class, 'marked_by');
     }
-}
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 
+    public function session()
+    {
+        return $this->belongsTo(Session::class);
+    }
+}

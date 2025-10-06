@@ -5,6 +5,8 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\coach\AttendanceController;
 use App\Http\Controllers\parent\ChildAttendanceController;
 use App\Http\Controllers\coach\EvaluationController;
+use App\Http\Controllers\coach\SessionController;
+use App\Http\Controllers\coach\CourseController;
 use App\Http\Controllers\coach\MonthlyPerformanceController;
 use App\Http\Controllers\coach\SessionPerformanceController;
 use App\Http\Controllers\shared\EventController;
@@ -23,9 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-Route::get('/courses', function () {
-    return view('dashboards.shared.courses.course');
 });
 
 
@@ -70,6 +69,13 @@ Route::resource('attendance', AttendanceController::class);
 Route::resource('evaluations', EvaluationController::class);
 // Coach evaluations routes end
 
+// Coach courses routes start
+Route::resource('courses', CourseController::class);
+Route::post('courses/{course}/sessions', [CourseController::class, 'addSession'])
+    ->name('coach.courses.addSession');
+    Route::resource('courses.sessions', SessionController::class);
+// Coach courses routes end
+
 
 
 // Coach session performances routes start
@@ -80,7 +86,7 @@ Route::get('monthly_performances/export/{monthly}', [MonthlyPerformanceControlle
     ->name('monthly_performances.export');
 // Coach session performances routes end
 
-    Route::get('/parent/attendance', [ChildAttendanceController::class, 'index'])->name('parent.attendance.index');
+Route::get('/parent/attendance', [ChildAttendanceController::class, 'index'])->name('parent.attendance.index');
 
 require __DIR__ . '/auth.php';
 

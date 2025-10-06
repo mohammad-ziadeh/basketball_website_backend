@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('course_id')->nullable();
+            $table->unsignedBigInteger('session_id')->nullable();
             $table->date('attendance_date');
             $table->enum('status', ['present', 'absent', 'late'])->default('absent');
             $table->unsignedBigInteger('marked_by')->nullable();

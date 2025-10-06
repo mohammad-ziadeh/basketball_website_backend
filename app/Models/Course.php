@@ -2,16 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Course extends Model
 {
-    protected $fillable = ['title', 'description', 'file_path', 'type', 'uploaded_by'];
+    use HasFactory;
 
-    public function uploader(): BelongsTo
+    protected $fillable = [
+        'name',
+        'description',
+        'coach_id',
+        'start_date',
+        'end_date'
+    ];
+
+    public function coach()
     {
-        return $this->belongsTo(User::class, 'uploaded_by');
+        return $this->belongsTo(User::class, 'coach_id');
+    }
+
+    public function players()
+    {
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class);
     }
 }
-
