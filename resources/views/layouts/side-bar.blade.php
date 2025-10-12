@@ -55,7 +55,7 @@
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item"><a class="pc-link" href="{{ route('users.index') }}">Users</a> </li>
-                            <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 1</a>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('payments.index') }}">Payments</a> </li>
                             </li>
                             <li class="pc-item"><a class="pc-link" href="../demo/layout-color-header.html">Layouts 2</a>
                             </li>

@@ -22,7 +22,7 @@ class ChildAbsentNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['database']; // you can also add 'mail' if needed
+        return ['database'];
     }
 
     public function toDatabase($notifiable)

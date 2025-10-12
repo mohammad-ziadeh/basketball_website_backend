@@ -65,9 +65,9 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'parent_id');
     }
 
-    public function transactions(): HasMany
+    public function payments()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Payment::class, 'parent_id');
     }
 
     public function uploadedMaterials(): HasMany

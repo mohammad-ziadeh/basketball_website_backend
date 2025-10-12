@@ -31,4 +31,8 @@ class Course extends Model
     {
         return $this->hasMany(Session::class);
     }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

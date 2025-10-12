@@ -92,10 +92,9 @@ class AttendanceController extends Controller
             'attendance.*.user_id' => 'required|exists:users,id',
             'attendance.*.status' => 'required|in:present,absent,late',
             'course_id' => 'nullable|exists:courses,id',
-            'session_id' => 'required|exists:sessions,id', // session is required now
+            'session_id' => 'required|exists:sessions,id',
         ]);
 
-        // Get the session date
         $session = Session::findOrFail($request->session_id);
         $attendanceDate = $session->session_date;
 
@@ -103,15 +102,15 @@ class AttendanceController extends Controller
             $attendance = Attendance::updateOrCreate(
                 [
                     'user_id' => $att['user_id'],
-                    'attendance_date' => $attendanceDate, // use session date
-                    'course_id' => $request->course_id,
-                    'session_id' => $request->session_id,
+                    'attendance_date' => $attendanceDate, 
                 ],
                 [
+                    'course_id' => $request->course_id, 
                     'status' => $att['status'],
-                    'marked_by' => Auth::id(),
+                    'marked_by' => auth()->id(),
                 ]
             );
+
 
             if ($attendance->status === 'absent') {
                 $child = User::find($attendance->user_id);
@@ -149,8 +148,7 @@ class AttendanceController extends Controller
             'marked_by' => Auth::id(),
         ]);
 
-        return redirect()->route('coach.attendance.index')
-            ->with('success', 'Attendance updated successfully.');
+        return back()->with('success', 'Attendance updated successfully.');
     }
 
     /**

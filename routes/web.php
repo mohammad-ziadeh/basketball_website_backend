@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\coach\AttendanceController;
 use App\Http\Controllers\parent\ChildAttendanceController;
 use App\Http\Controllers\coach\EvaluationController;
@@ -73,9 +74,14 @@ Route::resource('evaluations', EvaluationController::class);
 Route::resource('courses', CourseController::class);
 Route::post('courses/{course}/sessions', [CourseController::class, 'addSession'])
     ->name('coach.courses.addSession');
-    Route::resource('courses.sessions', SessionController::class);
+Route::resource('courses.sessions', SessionController::class);
 // Coach courses routes end
 
+// Admin payments routes start
+    Route::resource('payments', PaymentController::class);
+    Route::post('payments/store-multiple', [PaymentController::class, 'storeMultiple'])->name('payments.storeMultiple');
+    Route::post('payments/notify-unpaid', [PaymentController::class, 'notifyUnpaid'])->name('payments.notifyUnpaid');
+// Admin payments routes end
 
 
 // Coach session performances routes start
