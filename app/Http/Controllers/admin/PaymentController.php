@@ -30,7 +30,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Step 1: Select course, list parents & their kids.
+     *  Select course, list parents & their kids.
      */
     public function create(Request $request)
     {
@@ -72,18 +72,20 @@ class PaymentController extends Controller
         $request->validate([
             'status' => 'required|in:unpaid,partial,paid',
             'note' => 'nullable|string',
+            'left_amount' => 'nullable|numeric|min:0'
         ]);
 
         $payment->update([
             'status' => $request->status,
             'note' => $request->note,
+            'left_amount' => $request->left_amount,
         ]);
 
         return back()->with('success', 'Payment updated successfully.');
     }
 
     /**
-     * Step 2: Store all payments for selected parents.
+     * Store all payments for selected parents.
      */
     public function storeMultiple(Request $request)
     {
@@ -96,17 +98,23 @@ class PaymentController extends Controller
         ]);
 
         foreach ($validated['payments'] as $paymentData) {
-            Payment::create([
-                'parent_id' => $paymentData['parent_id'],
-                'course_id' => $validated['course_id'],
-                'amount' => $paymentData['amount'],
-                'due_date' => $paymentData['due_date'] ?? null,
-                'status' => 'unpaid',
-            ]);
+            Payment::updateOrCreate(
+                [
+                    'parent_id' => $paymentData['parent_id'],
+                    'course_id' => $validated['course_id'],
+                ],
+                [
+                    'amount' => $paymentData['amount'],
+                    'left_amount' => $paymentData['amount'],
+                    'due_date' => $paymentData['due_date'] ?? null,
+                    'status' => 'unpaid',
+                ]
+            );
         }
 
-        return redirect()->route('payments.index')->with('success', 'Payments created successfully for selected parents.');
+        return redirect()->route('payments.index')->with('success', 'Payments created or updated successfully for selected parents.');
     }
+
 
     public function notifyUnpaid(Request $request)
     {

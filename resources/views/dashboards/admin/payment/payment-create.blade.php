@@ -8,7 +8,6 @@
             </div>
 
             <div class="card-body">
-                <!-- Step 1: Select Course -->
                 <form method="GET" action="{{ route('payments.create') }}" class="mb-4">
                     <div class="row">
                         <div class="col-md-8">
@@ -45,10 +44,12 @@
                             <tbody>
                                 @foreach ($parents as $data)
                                     @php
-                                        $existingPayment = $data['parent']->payments()
+                                        $existingPayment = $data['parent']
+                                            ->payments()
                                             ->where('course_id', $selectedCourse->id)
                                             ->first();
                                     @endphp
+
                                     <tr>
                                         <td>
                                             {{ $data['parent']->name }}
@@ -61,16 +62,22 @@
                                                 name="payments[{{ $loop->index }}][amount]" required
                                                 value="{{ $existingPayment->amount ?? '' }}">
                                         </td>
-                                        <td>
-                                            <input type="date" class="form-control"
-                                                name="payments[{{ $loop->index }}][due_date]"
-                                                value="{{ $existingPayment->due_date?->format('Y-m-d') ?? '' }}">
-                                        </td>
+                                        @if ($existingPayment)
+                                            <td>
+                                                <input type="date" class="form-control"
+                                                    name="payments[{{ $loop->index }}][due_date]"
+                                                    value="{{ $existingPayment->due_date?->format('Y-m-d') ?? now() }}">
+                                            </td>
+                                        @else
+                                            <td>
+                                                <input type="date" class="form-control"
+                                                    name="payments[{{ $loop->index }}][due_date]">
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-
                         <div class="text-end mt-3">
                             <button type="submit" class="btn btn-success">Save Payments</button>
                         </div>

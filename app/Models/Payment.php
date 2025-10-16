@@ -13,6 +13,7 @@ class Payment extends Model
         'parent_id',
         'course_id',
         'amount',
+        'left_amount',
         'due_date',
         'paid_at',
         'status',

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\PaymentController;
+use App\Http\Controllers\admin\BillingController;
 use App\Http\Controllers\coach\AttendanceController;
 use App\Http\Controllers\parent\ChildAttendanceController;
 use App\Http\Controllers\coach\EvaluationController;
@@ -78,10 +79,19 @@ Route::resource('courses.sessions', SessionController::class);
 // Coach courses routes end
 
 // Admin payments routes start
-    Route::resource('payments', PaymentController::class);
-    Route::post('payments/store-multiple', [PaymentController::class, 'storeMultiple'])->name('payments.storeMultiple');
-    Route::post('payments/notify-unpaid', [PaymentController::class, 'notifyUnpaid'])->name('payments.notifyUnpaid');
+Route::resource('payments', PaymentController::class);
+Route::post('payments/store-multiple', [PaymentController::class, 'storeMultiple'])->name('payments.storeMultiple');
+Route::post('payments/notify-unpaid', [PaymentController::class, 'notifyUnpaid'])->name('payments.notifyUnpaid');
 // Admin payments routes end
+
+
+// Admin billings routes start
+Route::resource('billings', BillingController::class);
+Route::prefix('billings')->group(function () {
+    Route::post('{billing}/add-expense', [BillingController::class, 'addExpense'])->name('billings.addExpense');
+    Route::post('expense/{expense}/update', [BillingController::class, 'updateExpense'])->name('billings.updateExpense');
+});
+// Admin billings routes end
 
 
 // Coach session performances routes start

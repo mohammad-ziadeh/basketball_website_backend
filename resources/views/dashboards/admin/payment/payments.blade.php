@@ -65,6 +65,7 @@
                             <th>Parent</th>
                             <th>Course</th>
                             <th>Amount</th>
+                            <th>Payment Left</th>
                             <th>Due Date</th>
                             <th>Status</th>
                             <th>Note</th>
@@ -79,6 +80,7 @@
                                 <td>{{ $payment->parent ? $payment->parent->name : 'N/A' }}</td>
                                 <td>{{ $payment->course ? $payment->course->name : 'N/A' }}</td>
                                 <td>${{ number_format($payment->amount, 2) }}</td>
+                                <td>${{ number_format($payment->left_amount, 2) }}</td>
                                 <td>{{ $payment->due_date ? $payment->due_date->format('Y-m-d') : 'N/A' }}</td>
                                 <td>
                                     @if ($payment->status === 'paid')
@@ -129,6 +131,10 @@
                                                         <div class="mb-3">
                                                             <label>Note</label>
                                                             <textarea name="note" class="form-control" rows="2">{{ $payment->note }}</textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label>Payment Left</label>
+                                                            <input name="left_amount" class="form-control" rows="2" value="{{ $payment->left_amount }}">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">

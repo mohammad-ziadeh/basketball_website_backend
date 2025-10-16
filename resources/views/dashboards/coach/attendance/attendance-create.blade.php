@@ -7,42 +7,42 @@
                 <h4>Take Attendance</h4>
             </div>
             <div class="card-body">
-                <!-- Filter form: GET request to reload page -->
                 <form method="GET" class="mb-4">
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="course" class="form-label">Select Course</label>
-            <select name="course_id" class="form-select" onchange="this.form.submit()">
-                <option value="">-- Select Course --</option>
-                @foreach ($courses as $course)
-                    <option value="{{ $course->id }}" {{ ($courseId ?? '') == $course->id ? 'selected' : '' }}>
-                        {{ $course->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="course" class="form-label">Select Course</label>
+                            <select name="course_id" class="form-select" onchange="this.form.submit()">
+                                <option value="">-- Select Course --</option>
+                                @foreach ($courses as $course)
+                                    <option value="{{ $course->id }}"
+                                        {{ ($courseId ?? '') == $course->id ? 'selected' : '' }}>
+                                        {{ $course->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-        <div class="col-md-6 mb-3">
-            <label for="session" class="form-label">Select Session</label>
-            <select name="session_id" class="form-select" onchange="this.form.submit()">
-                <option value="">-- Select Session --</option>
-                @foreach ($sessions as $session)
-                    <option value="{{ $session->id }}" {{ ($sessionId ?? '') == $session->id ? 'selected' : '' }}>
-                        {{ $session->session_date }}
-                        @if ($session->start_time && $session->end_time)
-                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $session->start_time)->format('g:i A') }}
-                            →
-                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $session->end_time)->format('g:i A') }}
-                        @endif
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-</form>
+                        <div class="col-md-6 mb-3">
+                            <label for="session" class="form-label">Select Session</label>
+                            <select name="session_id" class="form-select" onchange="this.form.submit()">
+                                <option value="">-- Select Session --</option>
+                                @foreach ($sessions as $session)
+                                    <option value="{{ $session->id }}"
+                                        {{ ($sessionId ?? '') == $session->id ? 'selected' : '' }}>
+                                        {{ $session->session_date }}
+                                        @if ($session->start_time && $session->end_time)
+                                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $session->start_time)->format('g:i A') }}
+                                            →
+                                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $session->end_time)->format('g:i A') }}
+                                        @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </form>
 
 
-                <!-- Attendance form -->
                 <form method="POST" action="{{ route('attendance.store') }}">
                     @csrf
 
@@ -97,5 +97,5 @@
         </div>
     </div>
 
-  
+
 </x-app-layout>
