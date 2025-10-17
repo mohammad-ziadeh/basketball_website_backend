@@ -7,44 +7,34 @@ use App\Http\Controllers\Controller;
 use App\Models\Billing;
 use App\Models\BillingExpense;
 use App\Models\Payment;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BillingController extends Controller
 {
 
     public function index()
     {
-        $billings = Billing::with('course')->orderBy('year', 'desc')->orderBy('month', 'desc')->get();
-        return view('dashboards.admin.billing.billings', compact('billings'));
+        $billings = Billing::with('course')->orderBy('created_at', 'desc')->get();
+        $courses = Course::all();
+        return view('dashboards.admin.billing.billings', compact('billings', 'courses'));
     }
 
-    public function create()
-    {
-        $courses = \App\Models\Course::all();
-        return view('dashboards.admin.billing.billing-create', compact('courses'));
-    }
 
     public function store(Request $request)
     {
         $request->validate([
             'course_id' => 'required|exists:courses,id',
-            'month' => 'required|integer|min:1|max:12',
-            'year' => 'required|integer|min:2000',
         ]);
 
-        // Sum all paid payments for this course
         $totalIncome = Payment::where('course_id', $request->course_id)
             ->where('status', 'paid')
-            ->whereMonth('paid_at', $request->month)
-            ->whereYear('paid_at', $request->year)
             ->sum('amount');
 
-        // Create billing
         $billing = Billing::updateOrCreate(
             [
                 'course_id' => $request->course_id,
-                'month' => $request->month,
-                'year' => $request->year,
             ],
             [
                 'total_income' => $totalIncome,
@@ -71,7 +61,6 @@ class BillingController extends Controller
 
         $expense = $billing->expenses()->create($request->only('name', 'amount'));
 
-        // Update totals
         $billing->total_expenses = $billing->expenses()->sum('amount');
         $billing->final_payment = $billing->total_income - $billing->total_expenses;
         $billing->save();
@@ -99,6 +88,19 @@ class BillingController extends Controller
     public function destroy(Billing $billing)
     {
         $billing->delete();
-        return redirect()->route('billing.index')->with('success', 'Billing deleted successfully.');
+        return redirect()->route('billings.index')->with('success', 'Billing deleted successfully.');
+    }
+
+    public function exportPdf($billingId)
+    {
+        $billing = Billing::with(['course', 'expenses'])->findOrFail($billingId);
+
+        $pdf = Pdf::loadView('pdf.billing', [
+            'billing' => $billing,
+        ])->setPaper('a4', 'portrait');
+
+        $filename = 'billing_' . $billing->id . '_' . now()->format('Ymd_His') . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

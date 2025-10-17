@@ -91,6 +91,7 @@ Route::prefix('billings')->group(function () {
     Route::post('{billing}/add-expense', [BillingController::class, 'addExpense'])->name('billings.addExpense');
     Route::post('expense/{expense}/update', [BillingController::class, 'updateExpense'])->name('billings.updateExpense');
 });
+Route::get('/admin/billings/{id}/pdf', [BillingController::class, 'exportPdf'])->name('billings.exportPdf');
 // Admin billings routes end
 
 

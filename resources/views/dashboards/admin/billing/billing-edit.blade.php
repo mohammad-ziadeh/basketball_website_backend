@@ -1,69 +1,144 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Billing for {{ $billing->course->name }} ({{ $billing->month }}/{{ $billing->year }})
-        </h2>
-    </x-slot>
+    <div class="container-fluid py-5 min-vh-100">
 
-    <div class="py-6">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-
-            @if(session('success'))
-                <div class="bg-green-100 text-green-700 p-2 mb-4 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
-                <h3 class="font-semibold mb-2">Summary</h3>
-                <p><strong>Total Income:</strong> ${{ number_format($billing->total_income, 2) }}</p>
-                <p><strong>Total Expenses:</strong> ${{ number_format($billing->total_expenses, 2) }}</p>
-                <p><strong>Final Payment:</strong> ${{ number_format($billing->final_payment, 2) }}</p>
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2 class="fw-bold  mb-1">
+                    <i class="bi bi-receipt-cutoff text-primary"></i>
+                    Billing for {{ $billing->course->name }}
+                </h2>
             </div>
-
-            <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
-                <h3 class="font-semibold mb-4">Add Expense</h3>
-                <form action="{{ route('billings.addExpense', $billing->id) }}" method="POST" class="flex gap-2">
-                    @csrf
-                    <input type="text" name="name" placeholder="Expense Name" class="border rounded p-2 flex-1">
-                    <input type="number" name="amount" step="0.01" placeholder="Amount" class="border rounded p-2 w-32">
-                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Add</button>
-                </form>
-                @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
-                @error('amount') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="bg-white shadow-sm rounded-lg p-6">
-                <h3 class="font-semibold mb-4">Expenses</h3>
-                <table class="w-full border-collapse border">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="border px-4 py-2">Name</th>
-                            <th class="border px-4 py-2">Amount</th>
-                            <th class="border px-4 py-2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($billing->expenses as $expense)
-                        <tr>
-                            <form action="{{ route('billings.updateExpense', $expense->id) }}" method="POST">
-                                @csrf
-                                <td class="border px-4 py-2">
-                                    <input type="text" name="name" value="{{ $expense->name }}" class="border rounded p-1 w-full">
-                                </td>
-                                <td class="border px-4 py-2">
-                                    <input type="number" name="amount" value="{{ $expense->amount }}" step="0.01" class="border rounded p-1 w-full">
-                                </td>
-                                <td class="border px-4 py-2">
-                                    <button type="submit" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Update</button>
-                                </td>
-                            </form>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
+            <a href="{{ route('billings.index') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Back to All Billings
+            </a>
         </div>
+
+        @include('components.alerts')
+
+        <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card-body">
+                <h4 class="fw-bold  mb-4">
+                    <i class="bi bi-bar-chart-fill text-success"></i> Summary
+                </h4>
+                <div class="row text-center">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="p-3 rounded-4 bg-success-subtle">
+                            <h6 class="text-muted mb-1">Total Income</h6>
+                            <h4 class="fw-bold text-success mb-0">
+                                ${{ number_format($billing->total_income, 2) }}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="p-3 rounded-4 bg-danger-subtle">
+                            <h6 class="text-muted mb-1">Total Expenses</h6>
+                            <h4 class="fw-bold text-danger mb-0">
+                                ${{ number_format($billing->total_expenses, 2) }}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-4 bg-primary-subtle">
+                            <h6 class="text-muted mb-1">Final Payment</h6>
+                            <h4 class="fw-bold text-primary mb-0">
+                                ${{ number_format($billing->final_payment, 2) }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card-body">
+                <h4 class="fw-bold  mb-4">
+                    <i class="bi bi-plus-circle text-success"></i> Add Expense
+                </h4>
+
+                <form action="{{ route('billings.addExpense', $billing->id) }}" method="POST"
+                    class="row g-3 align-items-center">
+                    @csrf
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" name="name" class="form-control rounded-4" id="expenseName"
+                                placeholder="Expense Name">
+                            <label for="expenseName">Expense Name</label>
+                        </div>
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input type="number" name="amount" step="0.01" class="form-control rounded-4"
+                                id="expenseAmount" placeholder="Amount">
+                            <label for="expenseAmount">Amount ($)</label>
+                        </div>
+                        @error('amount')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="col-md-3 text-md-end">
+                        <button type="submit" class="btn btn-success btn-lg  ">
+                            <i class="bi bi-plus-lg"></i> Add Expense
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body">
+                <h4 class="fw-bold  mb-4">
+                    <i class="bi bi-wallet2 text-danger"></i> Expenses
+                </h4>
+
+                @if ($billing->expenses->count())
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($billing->expenses as $expense)
+                                    <tr>
+                                        <form action="{{ route('billings.updateExpense', $expense->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            <td>
+                                                <input type="text" name="name" value="{{ $expense->name }}"
+                                                    class="form-control form-control-sm rounded-3">
+                                            </td>
+                                            <td>
+                                                <input type="number" name="amount" value="{{ $expense->amount }}"
+                                                    step="0.01" class="form-control form-control-sm rounded-3">
+                                            </td>
+                                            <td class="text-end">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-warning rounded-pill px-3">
+                                                    <i class="bi bi-pencil-square me-1"></i> Update
+                                                </button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                        <h6>No expenses added yet.</h6>
+                    </div>
+                @endif
+            </div>
+        </div>
+
     </div>
+
+
 </x-app-layout>

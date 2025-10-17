@@ -12,13 +12,11 @@ return new class extends Migration
         Schema::create('billings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->decimal('total_income', 10, 2)->default(0); // sum of paid payments
-            $table->decimal('total_expenses', 10, 2)->default(0); // sum of expenses
-            $table->decimal('final_payment', 10, 2)->default(0); // total_income - total_expenses
-            $table->integer('month'); // 1-12
-            $table->integer('year'); // 2025
+            $table->decimal('total_income', 10, 2)->default(0);
+            $table->decimal('total_expenses', 10, 2)->default(0); 
+            $table->decimal('final_payment', 10, 2)->default(0); 
             $table->timestamps();
-            $table->unique(['course_id', 'month', 'year']);
+            $table->unique(['course_id',]);
         });
 
         Schema::create('billing_expenses', function (Blueprint $table) {

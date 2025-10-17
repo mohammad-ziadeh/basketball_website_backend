@@ -14,8 +14,6 @@ class Billing extends Model
         'total_income',
         'total_expenses',
         'final_payment',
-        'month',
-        'year',
     ];
 
     public function course()

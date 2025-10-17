@@ -10,7 +10,6 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <!-- Notify Unpaid Parents -->
                     <form method="POST" action="{{ route('payments.notifyUnpaid') }}">
                         @csrf
                         <button type="submit" class="btn btn-warning">
@@ -18,7 +17,6 @@
                         </button>
                     </form>
 
-                    <!-- Create Payment -->
                     <a href="{{ route('payments.create') }}" class="btn btn-success">
                         <i class="fa-solid fa-plus"></i> Create Payment
                     </a>
@@ -134,7 +132,8 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Payment Left</label>
-                                                            <input name="left_amount" class="form-control" rows="2" value="{{ $payment->left_amount }}">
+                                                            <input name="left_amount" class="form-control"
+                                                                rows="2" value="{{ $payment->left_amount }}">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
